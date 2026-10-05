@@ -6,25 +6,25 @@ API REST responsável pelos dados dos ninjas e jutsus e pelo processamento dos t
 
 ### Seleção do personagem principal
 
-![Tela de seleção do personagem principal](screenshots/selecao-personagens.png)
+![Tela de seleção do personagem principal](naruto-rpg/backend/screenshots/selecao-personagens.png)
 
 ### Seleção do oponente
 
 Depois de escolher o personagem principal, o jogador escolhe quem enfrentará na batalha.
 
-![Tela para escolher o segundo personagem, oponente controlado pela IA](screenshots/selecao-oponente.png)
+![Tela para escolher o segundo personagem, oponente controlado pela IA](naruto-rpg/backend/screenshots/selecao-oponente.png)
 
 ### Batalha e dano recebido
 
 | Batalha em andamento | HP diminuindo após um ataque |
 | --- | --- |
-| ![Pain contra Naruto no início da batalha](screenshots/batalha.png) | ![Efeito de dano e barras de HP atualizadas](screenshots/dano-recebido.png) |
+| ![Pain contra Naruto no início da batalha](naruto-rpg/backend/screenshots/batalha.png) | ![Efeito de dano e barras de HP atualizadas](naruto-rpg/backend/screenshots/dano-recebido.png) |
 
 ### Resultado da batalha
 
 | Vitória e recompensa de XP | Derrota |
 | --- | --- |
-| ![Tela de vitória com XP e level up](screenshots/vitoria.png) | ![Tela de derrota após o personagem perder todo o HP](screenshots/derrota.png) |
+| ![Tela de vitória com XP e level up](naruto-rpg/backend/screenshots/vitoria.png) | ![Tela de derrota após o personagem perder todo o HP](naruto-rpg/backend/screenshots/derrota.png) |
 
 ## Tecnologias
 
@@ -89,14 +89,15 @@ O comando `seed_data` recria os registros iniciais de ninjas e jutsus. Execute-o
 ## Estrutura
 
 ```text
-backend/
-├── battle/       # Modelos, endpoints, serializers e migrações
-├── core/         # Configurações e rotas principais do Django
-├── screenshots/  # Capturas do aplicativo para esta documentação
-└── manage.py
+naruto-rpg/
+├── backend/
+│   ├── battle/       # Modelos, endpoints, serializers e migrações
+│   ├── core/         # Configurações e rotas principais do Django
+│   ├── screenshots/  # Capturas do aplicativo para esta documentação
+│   └── manage.py
+└── frontend/
 ```
 
 ## Projeto
 
-- [Frontend Vue](../frontend/README.md)
-- [README principal](../../README.md)
+- [Frontend Vue](naruto-rpg/frontend/README.md)
