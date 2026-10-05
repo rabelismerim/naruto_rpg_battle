@@ -1,71 +1,102 @@
-```markdown
-# 🍃 Naruto RPG Battle — Backend API ⚙️
+# Naruto RPG Battle — Backend API
 
-Servidor REST API construído em **Django** e **Django REST Framework (DRF)** responsável por gerir a lógica de turnos de batalha, dados dos ninjas, jutsus e escalonamento de inteligência artificial (IA).
+API REST responsável pelos dados dos ninjas e jutsus e pelo processamento dos turnos de batalha. O servidor foi desenvolvido com Python, Django e Django REST Framework.
 
----
+## Telas do aplicativo
 
-## 🚀 Tecnologias Utilizadas
-* **Python** (versão 3.10 ou superior)
-* **Django** (Framework Web)
-* **Django REST Framework (DRF)** (Criação de endpoints RESTful)
-* **Django CORS Headers** (Permissão de requisições seguras entre o frontend e o backend)
+### Seleção do personagem principal
 
----
+![Tela de seleção do personagem principal](screenshots/selecao-personagens.png)
 
-## 📡 Endpoints da API
+### Seleção do oponente
 
-* `GET /api/ninjas/` — Lista todos os ninjas disponíveis com os respetivos atributos e jutsus.
-* `GET /api/jutsus/` — Lista todos os jutsus disponíveis no sistema.
-* `POST /api/battle/turn/` — Processa a lógica de um turno de combate (cálculo de dano do jogador, verificação de chakra, contra-ataque da IA e verificação de condições de vitória).
+Depois de escolher o personagem principal, o jogador escolhe quem enfrentará na batalha.
 
----
+![Tela para escolher o segundo personagem, oponente controlado pela IA](screenshots/selecao-oponente.png)
 
-## 🛠️ Como Executar o Backend
+### Batalha e dano recebido
 
-# 🍃 Naruto RPG Battle — Backend API ⚙️
+| Batalha em andamento | HP diminuindo após um ataque |
+| --- | --- |
+| ![Pain contra Naruto no início da batalha](screenshots/batalha.png) | ![Efeito de dano e barras de HP atualizadas](screenshots/dano-recebido.png) |
 
-Servidor REST API construído em **Django** e **Django REST Framework (DRF)** responsável por gerir a lógica de turnos de batalha, dados dos ninjas, jutsus e escalonamento de inteligência artificial (IA).
+### Resultado da batalha
 
----
+| Vitória e recompensa de XP | Derrota |
+| --- | --- |
+| ![Tela de vitória com XP e level up](screenshots/vitoria.png) | ![Tela de derrota após o personagem perder todo o HP](screenshots/derrota.png) |
 
-## 🚀 Tecnologias Utilizadas
-* **Python** (versão 3.10 ou superior)
-* **Django** (Framework Web)
-* **Django REST Framework (DRF)** (Criação de endpoints RESTful)
-* **Django CORS Headers** (Permissão de requisições seguras entre o frontend e o backend)
+## Tecnologias
 
----
+- Python 3.10 ou superior
+- Django
+- Django REST Framework
+- Django CORS Headers
+- SQLite para desenvolvimento local
 
-## 📡 Endpoints da API
+## Funcionalidades da API
 
-* `GET /api/ninjas/` — Lista todos os ninjas disponíveis com os respetivos atributos e jutsus.
-* `PATCH /api/ninjas/{id}/` — Atualiza o progresso de nível, XP e atributos do ninja.
-* `GET /api/jutsus/` — Lista todos os jutsus disponíveis no sistema.
-* `POST /api/battle/turn/` — Processa a lógica de um turno de combate (cálculo de dano do jogador, verificação de chakra, contra-ataque da IA e verificação de condições de vitória).
+- Lista ninjas, atributos, progresso e jutsus disponíveis.
+- Atualiza os dados de progresso de um ninja.
+- Processa ataques, consumo de chakra, contra-ataques da IA e resultado da batalha.
 
----
+## Progressão de nível e XP
 
-## 🛠️ Como Executar o Backend
+- Cada vitória concede **60 XP** ao ninja usado pelo jogador.
+- Ao atingir o XP necessário, o ninja sobe de nível. O limite inicial é **100 XP** e aumenta em 40% a cada nível, arredondado para baixo.
+- O XP que ultrapassa o limite fica acumulado para o próximo nível. O sistema verifica níveis consecutivos, caso o XP acumulado seja suficiente.
+- Cada nível aumenta o HP máximo em **25 pontos** e o chakra máximo em **15 pontos**.
+- Depois da vitória, o HP e o chakra são restaurados ao máximo. O progresso de cada ninja é acompanhado separadamente durante a sessão.
 
-1. Certifique-se de que tem o **Python** instalado.
-2. Navegue até à pasta do backend e crie o ambiente virtual, ative-o, instale as dependências e inicie o servidor executando os comandos abaixo:
+## Endpoints
+
+| Método | Endpoint | Descrição |
+| --- | --- | --- |
+| `GET` | `/api/ninjas/` | Lista os ninjas e seus jutsus. |
+| `GET` | `/api/ninjas/{id}/` | Consulta um ninja. |
+| `PATCH` | `/api/ninjas/{id}/` | Atualiza atributos ou progresso do ninja. |
+| `GET` | `/api/jutsus/` | Lista os jutsus. |
+| `POST` | `/api/battle/turn/` | Processa uma ação e retorna o estado do turno. |
+
+## Executar localmente
+
+No terminal, acesse esta pasta (`naruto-rpg/backend`) e execute:
 
 ```bash
-python -m venv venv
+# Criar e ativar o ambiente virtual
+python -m venv .venv
 
-# Para ativar no Windows:
-venv\Scripts\activate
+# Windows PowerShell
+.venv\Scripts\Activate.ps1
 
-# Para ativar no macOS/Linux:
-source venv/bin/activate
+# macOS/Linux: use `source .venv/bin/activate` no lugar do comando acima
 
-# Instalar as dependências:
-pip install -r requirements.txt
+# Instalar as dependências
+pip install -r battle/requirements.txt
 
-# Executar migrações da base de dados:
-python manage.py makemigrations
+# Preparar o banco de dados
 python manage.py migrate
 
-# Iniciar o servidor:
+# (Opcional) Popular o banco com os ninjas e jutsus iniciais
+python manage.py seed_data
+
+# Iniciar a API em http://127.0.0.1:8000/
 python manage.py runserver
+```
+
+O comando `seed_data` recria os registros iniciais de ninjas e jutsus. Execute-o quando quiser repor esses dados.
+
+## Estrutura
+
+```text
+backend/
+├── battle/       # Modelos, endpoints, serializers e migrações
+├── core/         # Configurações e rotas principais do Django
+├── screenshots/  # Capturas do aplicativo para esta documentação
+└── manage.py
+```
+
+## Projeto
+
+- [Frontend Vue](../frontend/README.md)
+- [README principal](../../README.md)
